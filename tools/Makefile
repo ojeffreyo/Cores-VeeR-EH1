@@ -33,7 +33,7 @@ VCS = vcs
 VERILATOR = verilator
 VLOG = qverilog
 RIVIERA = riviera
-GCC_PREFIX = riscv64-unknown-elf
+GCC_PREFIX = /home/yqiu/riscv64/bin/riscv64-unknown-elf
 BUILD_DIR = snapshots/${snapshot}
 TBDIR = ${RV_ROOT}/testbench
 
@@ -56,12 +56,14 @@ ifdef debug
  RIVIERA_DEBUG = +access +r
 endif
 
-# provide specific link file
-ifeq (,$(wildcard $(TEST_DIR)/$(TEST).ld))
-	LINK = $(TBDIR)/link.ld
-else
-	LINK = $(TEST_DIR)/$(TEST).ld
-endif
+# This is the link file for providing the GCC compiler
+# to know the exact .text .data section.
+# Provide specific link file
+#ifeq (,$(wildcard $(TEST_DIR)/$(TEST).ld))
+	LINK = /mnt/e/Cores-VeeR-EH1/sdk/drivers/linkerscript/link.ld
+# else
+#	LINK = $(TEST_DIR)/$(TEST).ld
+# endif
 
 OFILES = $(TEST).o
 
@@ -157,15 +159,15 @@ riviera: program.hex riviera-build
 ##################### Test Build #####################################
 
 
-ifeq ($(shell which $(GCC_PREFIX)-gcc 2> /dev/null),)
-program.hex: ${BUILD_DIR}/defines.h
-	@echo " !!! No $(GCC_PREFIX)-gcc in path, using canned hex files !!"
-	cp ${HEX_DIR}/$(TEST).hex program.hex
-else
-ifneq (,$(wildcard $(TEST_DIR)/$(TEST).makefile))
-program.hex:
-	$(MAKE) -f $(TEST_DIR)/$(TEST).makefile
-else
+#ifeq ($(shell which $(GCC_PREFIX)-gcc 2> /dev/null),)
+#program.hex: ${BUILD_DIR}/defines.h
+#	@echo " !!! No $(GCC_PREFIX)-gcc in path, using canned hex files !!"
+#	cp ${HEX_DIR}/$(TEST).hex program.hex
+#else
+#ifneq (,$(wildcard $(TEST_DIR)/$(TEST).makefile))
+#program.hex:
+#	$(MAKE) -f $(TEST_DIR)/$(TEST).makefile
+#else
 program.hex: $(OFILES) $(LINK)
 	@echo Building $(TEST)
 	$(GCC_PREFIX)-gcc $(ABI) -Wl,-Map=$(TEST).map -lgcc -T$(LINK) -o $(TEST).exe $(OFILES) -nostartfiles  $(TEST_LIBS)
@@ -180,8 +182,6 @@ program.hex: $(OFILES) $(LINK)
 
 %.o : %.c ${BUILD_DIR}/defines.h
 	$(GCC_PREFIX)-gcc -I${BUILD_DIR} ${TEST_CFLAGS} ${ABI} -nostdlib -c $< -o $@
-endif
-endif
 
 help:
 	@echo Make sure the environment variable RV_ROOT is set.
