@@ -14,11 +14,13 @@
 # limitations under the License.
 #
 CONF_PARAMS = -set iccm_enable
+
 # Check for RV_ROOT
 ifeq (,$(wildcard ${RV_ROOT}/configs/veer.config))
 $(error env var RV_ROOT does not point to a valid dir! Exiting!)
 endif
 
+# compile flags
 TEST_CFLAGS = -g -O3 -funroll-all-loops
 ABI = -mabi=ilp32 -march=rv32imc
 
@@ -43,6 +45,7 @@ TEST = hello_world
 # Define default test directory
 TEST_DIR = $(TBDIR)/asm
 HEX_DIR = $(TBDIR)/hex
+
 ifneq (,$(wildcard $(TBDIR)/tests/$(TEST)))
         TEST_DIR = $(TBDIR)/tests/$(TEST)
 endif
@@ -60,7 +63,7 @@ endif
 # to know the exact .text .data section.
 # Provide specific link file
 #ifeq (,$(wildcard $(TEST_DIR)/$(TEST).ld))
-LINK = /mnt/e/Cores-VeeR-EH1/sdk/drivers/linkerscript/link.ld
+LINK = /${RV_ROOT}/sdk/drivers/linkerscript/link.ld
 # else
 #	LINK = $(TEST_DIR)/$(TEST).ld
 # endif
@@ -137,21 +140,21 @@ riviera-build: ${TBFILES} ${BUILD_DIR}/defines.h
 
 ##################### Simulation Runs #####################################
 
-verilator: program.hex verilator-build
+verilator: buildcase verilator-build
 	./obj_dir/Vtb_top ${DEBUG_PLUS}
 
-irun: program.hex irun-build
+irun: buildcase irun-build
 	$(IRUN) -64bit +lic_queue -licqueue -status -xmlibdirpath . -xmlibdirname veer.build \
 		 -snapshot ${snapshot} -r ${snapshot} $(IRUN_DEBUG_RUN) $(profile)
 
-vcs: program.hex vcs-build
+vcs: buildcase vcs-build
 	./simv $(DEBUG_PLUS) +vcs+lic+wait -l vcs.log
 
-vlog: program.hex ${TBFILES} ${BUILD_DIR}/defines.h
+vlog: buildcase ${TBFILES} ${BUILD_DIR}/defines.h
 	$(VLOG) -l vlog.log -sv -mfcu +incdir+${BUILD_DIR}+${RV_ROOT}/design/include+${RV_ROOT}/design/lib\
         $(defines) -f ${RV_ROOT}/testbench/flist ${TBFILES} -R +nowarn3829 ${DEBUG_PLUS}
 
-riviera: program.hex riviera-build
+riviera: buildcase riviera-build
 	vsim -c -lib work ${DEBUG_PLUS} ${RIVIERA_DEBUG} tb_top -do "run -all; exit" -l riviera.log
 
 
@@ -168,11 +171,13 @@ riviera: program.hex riviera-build
 #program.hex:
 #	$(MAKE) -f $(TEST_DIR)/$(TEST).makefile
 #else
-program.hex: $(OFILES) $(LINK)
+buildcase: $(OFILES) $(LINK)
 	@echo Building $(TEST)
+
 	$(GCC_PREFIX)-gcc $(ABI) -Wl,-Map=$(TEST).map -lgcc -T$(LINK) -o $(TEST).exe $(OFILES) -nostartfiles  $(TEST_LIBS)
-	$(GCC_PREFIX)-objcopy -O verilog $(TEST).exe program.hex
+	$(GCC_PREFIX)-objcopy -O verilog $(TEST).exe buildcase
 	$(GCC_PREFIX)-objdump -S  $(TEST).exe > $(TEST).dis
+	
 	@echo Completed building $(TEST)
 
 %.o : %.s ${BUILD_DIR}/defines.h
@@ -185,6 +190,6 @@ program.hex: $(OFILES) $(LINK)
 
 help:
 	@echo Make sure the environment variable RV_ROOT is set.
-	@echo Possible targets: verilator vcs irun vlog riviera help clean all verilator-build irun-build vcs-build riviera-build program.hex
+	@echo Possible targets: verilator vcs irun vlog riviera help clean all verilator-build irun-build vcs-build riviera-build buildcase
 
 .PHONY: help clean verilator vcs irun vlog riviera
