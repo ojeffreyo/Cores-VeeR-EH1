@@ -419,8 +419,8 @@ module tb_top;
         nmi_vector   = 32'hee000000;
         nmi_int   = 0;
 
-        $readmemh("program.hex",  lmem.mem);
-        $readmemh("program.hex",  imem.mem);
+        $readmemh("buildcase",  lmem.mem);
+        $readmemh("buildcase",  imem.mem);
         tp = $fopen("trace_port.csv","w");
         el = $fopen("exec.log","w");
         $fwrite (el, "//   Cycle : #inst  hart   pc    opcode    reg=value   ; mnemonic\n");
