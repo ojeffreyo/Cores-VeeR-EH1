@@ -1,0 +1,183 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /home/yqiu/riscv64/bin/../lib/gcc/riscv64-unknown-elf/12.2.0/libgcc.a
+LOAD crt0.o
+LOAD printf.o
+LOAD cmark.o
+LOAD /home/yqiu/riscv64/bin/../lib/gcc/riscv64-unknown-elf/12.2.0/libgcc.a
+START GROUP
+LOAD /home/yqiu/riscv64/bin/../lib/gcc/riscv64-unknown-elf/12.2.0/../../../../riscv64-unknown-elf/lib/libc.a
+LOAD /home/yqiu/riscv64/bin/../lib/gcc/riscv64-unknown-elf/12.2.0/../../../../riscv64-unknown-elf/lib/libgloss.a
+END GROUP
+LOAD /home/yqiu/riscv64/bin/../lib/gcc/riscv64-unknown-elf/12.2.0/libgcc.a
+                0x0000000000000000                . = 0x0
+
+.text           0x0000000000000000     0x8e4c
+ *(.text*)
+ .text          0x0000000000000000        0x0 crt0.o
+ .text.init     0x0000000000000000       0x46 crt0.o
+                0x0000000000000000                _start
+                0x0000000000000018                _finish
+ .text          0x0000000000000046      0xc36 printf.o
+                0x0000000000000046                whisperPrintfImpl
+                0x0000000000000b24                whisperPrintf
+                0x0000000000000b48                putchar
+                0x0000000000000b56                putc
+                0x0000000000000b64                puts
+                0x0000000000000bd4                printf
+                0x0000000000000bf8                get_mcycle
+ .text          0x0000000000000c7c     0x743c cmark.o
+                0x0000000000000c7c                cmp_idx
+                0x0000000000000cce                copy_info
+                0x0000000000000ce0                core_list_init
+                0x0000000000000ff2                core_list_insert_new
+                0x0000000000001042                core_list_remove
+                0x0000000000001058                core_list_undo_remove
+                0x0000000000001068                core_list_find
+                0x00000000000010a4                core_list_reverse
+                0x000000000000111a                core_list_mergesort
+                0x0000000000001276                matrix_test
+                0x00000000000034d0                core_bench_matrix
+                0x000000000000374c                core_init_matrix
+                0x0000000000003a84                matrix_sum
+                0x0000000000003e7c                matrix_mul_const
+                0x0000000000003fde                matrix_add_const
+                0x00000000000041ce                matrix_mul_vect
+                0x000000000000436a                matrix_mul_matrix
+                0x0000000000004550                matrix_mul_matrix_bitextract
+                0x00000000000046f8                core_init_state
+                0x0000000000004870                core_state_transition
+                0x0000000000004aca                core_bench_state
+                0x00000000000057c6                calc_func
+                0x0000000000005d50                cmp_complex
+                0x0000000000006840                core_bench_list
+                0x0000000000007142                iterate
+                0x000000000000758e                get_seed_32
+                0x00000000000075d2                crcu8
+                0x00000000000076fa                crcu16
+                0x0000000000007950                crcu32
+                0x0000000000007e02                crc16
+                0x000000000000805c                check_data_types
+                0x0000000000008060                start_time
+                0x000000000000806c                stop_time
+                0x0000000000008078                get_time
+                0x000000000000808a                time_in_secs
+                0x0000000000008094                portable_init
+                0x000000000000809c                portable_fini
+                0x00000000000080a2                memset
+ .text.startup  0x00000000000080b8      0xd94 cmark.o
+                0x00000000000080b8                main
+                0x0000000000008e4c                _end = .
+
+.rela.dyn       0x0000000000008e4c        0x0
+ .rela.text.init
+                0x0000000000008e4c        0x0 crt0.o
+                0x0000000000010000                . = 0x10000
+
+.data           0x0000000000010000      0x5a6
+ *(.*data)
+ .data          0x0000000000010000        0x0 crt0.o
+ .data          0x0000000000010000        0x0 printf.o
+ .rodata        0x0000000000010000       0x84 printf.o
+ .data          0x0000000000010084        0xc cmark.o
+                0x0000000000010084                mem_name
+ .rodata        0x0000000000010090       0x58 cmark.o
+ .sdata         0x00000000000100e8        0xc cmark.o
+                0x00000000000100e8                default_num_contexts
+                0x00000000000100ec                seed4_volatile
+                0x00000000000100f0                seed3_volatile
+ *(.rodata*)
+ .rodata.str1.4
+                0x00000000000100f4      0x4b2 cmark.o
+                0x00000000000185b0                STACK = (ALIGN (0x10) + 0x8000)
+
+.bss            0x00000000000105a8      0x7d0
+ *(.bss)
+ .bss           0x00000000000105a8        0x0 crt0.o
+ .bss           0x00000000000105a8        0x0 printf.o
+ .bss           0x00000000000105a8      0x7d0 cmark.o
+                0x00000000000105a8                static_memblk
+
+.sbss           0x0000000000010d78       0x14
+ .sbss          0x0000000000010d78       0x14 cmark.o
+                0x0000000000010d80                seed5_volatile
+                0x0000000000010d84                seed2_volatile
+                0x0000000000010d88                seed1_volatile
+                0x00000000d0580000                . = 0xd0580000
+
+.data.io        0x00000000d0580000        0x4
+ *(.data.io)
+ .data.io       0x00000000d0580000        0x4 crt0.o
+                0x00000000d0580000                tohost
+OUTPUT(cmark.exe elf32-littleriscv)
+
+.riscv.attributes
+                0x0000000000000000       0x2a
+ .riscv.attributes
+                0x0000000000000000       0x28 crt0.o
+ .riscv.attributes
+                0x0000000000000028       0x2a printf.o
+ .riscv.attributes
+                0x0000000000000052       0x2a cmark.o
+
+.comment        0x0000000000000000       0x1b
+ .comment       0x0000000000000000       0x1b printf.o
+                                         0x1c (size before relaxing)
+ .comment       0x000000000000001b       0x1c cmark.o
+
+.debug_info     0x0000000000000000     0x47f1
+ .debug_info    0x0000000000000000      0x8d9 printf.o
+ .debug_info    0x00000000000008d9     0x3f18 cmark.o
+
+.debug_abbrev   0x0000000000000000      0x6f1
+ .debug_abbrev  0x0000000000000000      0x2ee printf.o
+ .debug_abbrev  0x00000000000002ee      0x403 cmark.o
+
+.debug_loclists
+                0x0000000000000000     0xcf74
+ .debug_loclists
+                0x0000000000000000     0x110a printf.o
+ .debug_loclists
+                0x000000000000110a     0xbe6a cmark.o
+
+.debug_aranges  0x0000000000000000       0x48
+ .debug_aranges
+                0x0000000000000000       0x20 printf.o
+ .debug_aranges
+                0x0000000000000020       0x28 cmark.o
+
+.debug_rnglists
+                0x0000000000000000     0x156c
+ .debug_rnglists
+                0x0000000000000000      0x759 printf.o
+ .debug_rnglists
+                0x0000000000000759      0xe13 cmark.o
+
+.debug_line     0x0000000000000000    0x1c415
+ .debug_line    0x0000000000000000     0x2dd0 printf.o
+ .debug_line    0x0000000000002dd0    0x19645 cmark.o
+
+.debug_str      0x0000000000000000      0x88b
+ .debug_str     0x0000000000000000      0x1d6 printf.o
+                                        0x22c (size before relaxing)
+ .debug_str     0x00000000000001d6      0x6b5 cmark.o
+                                        0x7fa (size before relaxing)
+
+.debug_line_str
+                0x0000000000000000      0x179
+ .debug_line_str
+                0x0000000000000000      0x139 printf.o
+                                        0x167 (size before relaxing)
+ .debug_line_str
+                0x0000000000000139       0x40 cmark.o
+                                        0x177 (size before relaxing)
+
+.debug_frame    0x0000000000000000      0x638
+ .debug_frame   0x0000000000000000       0xe8 printf.o
+ .debug_frame   0x00000000000000e8      0x550 cmark.o
