@@ -170,7 +170,7 @@ function(generate_bin)
     # Add stdlib
     target_link_libraries(${target_name}.elf libc)
     # Add bsplib
-    target_link_libraries(${target_name}.elf bsp)
+    # target_link_libraries(${target_name}.elf bsp)
 
     if(TARGET_REQUIRED_LIBS)
         target_link_libraries(${target_name}.elf ${TARGET_REQUIRED_LIBS})

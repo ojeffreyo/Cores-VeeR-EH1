@@ -3,6 +3,7 @@
 //
 // cmd:    veer -target=default -set iccm_enable 
 //
+typedef unsigned short wchar_t;
 #define RV_EXT_ADDRWIDTH 32
 #define SDVT_AHB 1
 #define RV_STERR_ROLLBACK 0

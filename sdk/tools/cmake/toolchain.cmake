@@ -32,7 +32,7 @@ endif()
 if(MINGW OR CYGWIN OR WIN32)
     set(TOOLCHAIN_PREFIX riscv64-unknown-elf-)
 else()
-    set(TOOLCHAIN_PREFIX riscv32-unknown-elf-)
+    set(TOOLCHAIN_PREFIX riscv64-unknown-elf-)
 endif()
 
 execute_process(

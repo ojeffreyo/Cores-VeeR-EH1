@@ -98,15 +98,15 @@ if(${BOARD} MATCHES "(genesys2-fpga)")
 else()
 endif()
 
-if(${RTOS} STREQUAL "rtthread")
+# if(${RTOS} STREQUAL "rtthread")
+#     SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
+# elseif(${RTOS} STREQUAL "uvm")
+#     SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
+# elseif(${RTOS} STREQUAL "ram")
+#     SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
+# else()
     SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
-elseif(${RTOS} STREQUAL "uvm")
-    SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
-elseif(${RTOS} STREQUAL "ram")
-    SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
-else()
-    SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/drivers/linkerscript/link.ld)
-endif()
+# endif()
 
 
 

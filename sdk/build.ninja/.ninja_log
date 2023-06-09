@@ -1,6 +1,0 @@
-# ninja log v5
-15	206	1686300808109323200	drivers/CMakeFiles/drivers.dir/startup/crt0.s.obj	536e5f37a60b0d0e
-139	237	1686300808131318000	examples/01_hello_world/CMakeFiles/01_hello_world.elf.dir/hello_world.s.obj	9918854772d6d4c2
-211	302	1686300808217320100	drivers/libdrivers.a	bfce4596fa9e4972
-118	341	1686300808252317200	libc/CMakeFiles/libc.dir/source/printf.c.obj	b8dc24de28b64141
-341	456	1686300808364317100	libc/liblibc.a	f03efc3cf4ee67d2
