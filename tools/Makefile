@@ -63,7 +63,7 @@ endif
 # to know the exact .text .data section.
 # Provide specific link file
 #ifeq (,$(wildcard $(TEST_DIR)/$(TEST).ld))
-LINK = /${RV_ROOT}/sdk/drivers/linkerscript/link.ld
+LINK = /${RV_ROOT}/EH1-sdk/drivers/linkerscript/link.ld
 # else
 #	LINK = $(TEST_DIR)/$(TEST).ld
 # endif
