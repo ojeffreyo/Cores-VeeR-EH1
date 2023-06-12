@@ -10,7 +10,7 @@ endif()
 
 ################# Add global include #################
 list(APPEND ADD_INCLUDE
-"${CMAKE_CURRENT_SOURCE_DIR}/"
+"${CMAKE_CURRENT_SOURCE_DIR}/common/"
 # "${CMAKE_CURRENT_SOURCE_DIR}/std_drivers/crc"
 # "${CMAKE_CURRENT_SOURCE_DIR}/std_drivers/dma"
 # "${CMAKE_CURRENT_SOURCE_DIR}/std_drivers/efc"
