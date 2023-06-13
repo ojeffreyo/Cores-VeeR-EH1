@@ -21,6 +21,7 @@ MEMORY {
     /* rom(rx) : ORIGIN = 0x1FFF8000, LENGTH = 0x600 */
     ram_main(rx) : ORIGIN = 0x20000000, LENGTH = 0x000FFFFF  /* 1MB / 1024kB */
     eflash(rx)   : ORIGIN = 0x80000000, LENGTH = 0x000FFFFF  /* 1MB / 1024kB */
+    rom(rx)  : ORIGIN = , LENGTH = 
     iccm(rx) : ORIGIN = 0x00040000, LENGTH = 0x0001FFFF /* 128kB   Instruction Closely Coupled Memory */
     dccm(rx) : ORIGIN = 0x00080000, LENGTH = 0x0001FFFF /* 128kB          Data Closely Coupled Memory */
 }
@@ -29,6 +30,8 @@ MEMORY {
 /* Reserving space at the top of the RAM for the stack.
  * It is zeroed out so a size must be provided.
  */
+/* The stack size is 512kB, the half of the SRAM */
+/* The Heap size and the rdata rodata section will be defined dynamicly.*/
 _stack_size = 0x7FFFF;
 
 /* DV Log offset (has to be different to other boot stages). */
